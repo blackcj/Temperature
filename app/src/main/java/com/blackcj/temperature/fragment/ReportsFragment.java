@@ -98,10 +98,21 @@ public class ReportsFragment extends BaseFragment implements ReportDataSource.Re
         // We want to avoid black border
         mRenderer.setMarginsColor(Color.argb(0x00, 0xff, 0x00, 0x00)); // transparent margins
         // Disable Pan on two axis
-        mRenderer.setPanEnabled(false, true);
+        mRenderer.setPanEnabled(true, false);
+        mRenderer.setZoomEnabled(true, false);
+        mRenderer.setLabelsTextSize(40f);
         mRenderer.setYAxisMax(80);
         mRenderer.setYAxisMin(70);
         mRenderer.setShowGrid(true); // we show the grid
+        mRenderer.setXLabels(0);
+        hour = 0;
+        for (Temperature hf : reportData) {
+            if(hour % 12 == 0) {
+                Double d = series.getX(hour);
+                mRenderer.addXTextLabel(d, hf.formatted_date);
+            }
+            hour++;
+        }
 
 
 
