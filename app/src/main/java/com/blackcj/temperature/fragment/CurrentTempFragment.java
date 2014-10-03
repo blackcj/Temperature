@@ -40,7 +40,7 @@ public class CurrentTempFragment extends Fragment implements SwipeRefreshLayout.
     @InjectView(R.id.swipeRefreshLayout_listView)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
-    private String endpoint;
+    protected int section_number;
 
     public static CurrentTempFragment newInstance(int sectionNumber) {
         CurrentTempFragment f = new CurrentTempFragment();
@@ -60,7 +60,7 @@ public class CurrentTempFragment extends Fragment implements SwipeRefreshLayout.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //endpoint = getArguments() != null ? getArguments().getString(ENDPOINT_ARG) : "";
+        section_number = getArguments() != null ? getArguments().getInt(ARG_SECTION_NUMBER) : 0;
     }
 
     @Override
@@ -81,7 +81,7 @@ public class CurrentTempFragment extends Fragment implements SwipeRefreshLayout.
                 android.R.color.holo_red_light);
 
         // Now return the SwipeRefreshLayout as this fragment's content view
-        return mSwipeRefreshLayout;
+        return view;
     }
 
     @Override

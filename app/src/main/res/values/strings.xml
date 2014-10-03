@@ -15,7 +15,9 @@
     <string name="humidity">Humidity</string>
 
     <!-- CurrentTempFragment -->
+    <string name="temp_icon_description">Thermostat</string>
     <string name="humidity_icon_description">Water droplet</string>
+    <string name="light_icon_description">Light bulb</string>
     <string name="placeholder_temp">70.1°F</string>
 
 </resources>

@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.blackcj.temperature.fragment.CurrentTempFragment;
 import com.blackcj.temperature.fragment.NavigationDrawerFragment;
 import com.blackcj.temperature.R;
+import com.blackcj.temperature.fragment.ReportsFragment;
 import com.blackcj.temperature.model.Temperature;
 import com.blackcj.temperature.source.TemperatureDataSource;
 
@@ -67,7 +68,7 @@ public class MainActivity extends ActionBarActivity
                 // update the main content by replacing fragments
 
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                        .replace(R.id.container, ReportsFragment.newInstance(position + 1))
                         .commit();
                 break;
             case 2:

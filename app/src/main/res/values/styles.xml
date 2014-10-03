@@ -23,4 +23,27 @@
         <item name="android:paddingLeft">@dimen/margin_extra_small</item>
     </style>
 
+    <style name="CurrentImage">
+        <item name="android:padding">5dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">150dp</item>
+    </style>
+
+    <style name="CurrentImage.Temp">
+        <item name="android:background">@color/orange12</item>
+        <item name="android:src">@drawable/thermostat_icon</item>
+    </style>
+
+    <style name="CurrentImage.Humidity">
+        <item name="android:background">@color/purple13</item>
+        <item name="android:src">@drawable/drop_icon</item>
+    </style>
+
+    <style name="CurrentImage.Light">
+        <item name="android:background">@color/green11</item>
+        <item name="android:src">@drawable/ic_light</item>
+    </style>
+
+
+
 </resources>

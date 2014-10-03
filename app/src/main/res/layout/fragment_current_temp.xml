@@ -15,11 +15,7 @@
             android:layout_height="wrap_content">
             <ImageView
                 android:id="@+id/thermostat_icon"
-                android:padding="5dp"
-                android:background="@color/orange12"
-                android:layout_width="wrap_content"
-                android:layout_height="150dp"
-                android:src="@drawable/thermostat_icon"/>
+                style="@style/CurrentImage.Temp"/>
             <TextView
                 android:layout_width="match_parent"
                 android:gravity="center"
@@ -32,12 +28,8 @@
                 android:textSize="80sp"/>
             <ImageView
                 android:id="@+id/humidity_icon"
-                android:padding="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="150dp"
+                style="@style/CurrentImage.Humidity"
                 android:layout_below="@id/thermostat_icon"
-                android:background="@color/purple13"
-                android:src="@drawable/drop_icon"
                 android:contentDescription="@string/humidity_icon_description"/>
             <TextView
                 android:layout_below="@id/current_temperature_text"
@@ -50,7 +42,23 @@
                 android:layout_height="150dp"
                 android:textColor="@color/white"
                 android:textSize="80sp"/>
-
+            <ImageView
+                android:id="@+id/light_icon"
+                style="@style/CurrentImage.Light"
+                android:layout_below="@id/humidity_icon"
+                android:contentDescription="@string/humidity_icon_description"/>
+            <TextView
+                android:layout_below="@id/current_humidity_text"
+                android:layout_width="match_parent"
+                android:layout_toRightOf="@+id/humidity_icon"
+                android:layout_toEndOf="@id/humidity_icon"
+                android:gravity="center"
+                android:text="OFF"
+                android:id="@+id/current_light_text"
+                android:background="@color/green10"
+                android:layout_height="150dp"
+                android:textColor="@color/white"
+                android:textSize="80sp"/>
         </RelativeLayout>
     </ScrollView>
 
