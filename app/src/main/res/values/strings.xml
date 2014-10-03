@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Temperature</string>
+    <string name="title_section1">Current Temperature</string>
+    <string name="title_section2">Reports</string>
+    <string name="title_section3">Settings</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example">Example action</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Common -->
+    <string name="temperature">Temperature</string>
+    <string name="humidity">Humidity</string>
+
+    <!-- CurrentTempFragment -->
+    <string name="humidity_icon_description">Water droplet</string>
+    <string name="placeholder_temp">70.1°F</string>
+
+</resources>
