@@ -27,7 +27,10 @@
 
     <!-- Current Temp Fragment -->
     <style name="CurrentImage">
-        <item name="android:padding">5dp</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">15dp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">150dp</item>
     </style>
@@ -53,6 +56,8 @@
         <item name="android:textSize">@dimen/text_xxlarge</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">150dp</item>
+        <item name="android:paddingTop">20dp</item>
+        <item name="android:paddingBottom">20dp</item>
     </style>
 
     <style name="TextAppearance.LargeHeadingText.Temp">

@@ -1,18 +1,22 @@
-<android.support.v4.widget.SwipeRefreshLayout
+<?xml version="1.0" encoding="utf-8"?>
+<com.blackcj.core.view.ObservableScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue2"
-    android:id="@+id/swipeRefreshLayout_listView"
+    android:id="@+id/observable_scroll_view"
+    android:fillViewport="true"
+    android:scrollbars="none"
+    android:fadingEdge="none"
     tools:context=".MainActivity$PlaceholderFragment">
-    <com.blackcj.core.view.ObservableScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_height="wrap_content">
+
         <RelativeLayout
+            android:id="@+id/temp_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="150dp">
             <ImageView
                 android:id="@+id/thermostat_icon"
                 style="@style/CurrentImage.Temp"
@@ -23,31 +27,69 @@
                 android:layout_toRightOf="@id/thermostat_icon"
                 style="@style/TextAppearance.LargeHeadingText.Temp"
                 tools:text="@string/placeholder_temp"/>
-            <ImageView
-                android:id="@+id/humidity_icon"
-                style="@style/CurrentImage.Humidity"
-                android:layout_below="@id/thermostat_icon"
-                android:contentDescription="@string/humidity_icon_description"/>
-            <TextView
-                android:id="@+id/current_humidity_text"
-                android:layout_below="@id/current_temperature_text"
-                android:layout_toRightOf="@+id/humidity_icon"
-                android:layout_toEndOf="@id/humidity_icon"
-                style="@style/TextAppearance.LargeHeadingText.Humidity"
-                tools:text="@string/placeholder_humidity"/>
-            <ImageView
-                android:id="@+id/light_icon"
-                style="@style/CurrentImage.Light"
-                android:layout_below="@id/humidity_icon"
-                android:contentDescription="@string/humidity_icon_description"/>
-            <TextView
-                android:id="@+id/current_light_text"
-                android:layout_below="@id/current_humidity_text"
-                android:layout_toRightOf="@+id/humidity_icon"
-                android:layout_toEndOf="@id/humidity_icon"
-                style="@style/TextAppearance.LargeHeadingText.Light"
-                tools:text="@string/placeholder_light"
-                android:text="@string/placeholder_light"/>
         </RelativeLayout>
-    </com.blackcj.core.view.ObservableScrollView>
-</android.support.v4.widget.SwipeRefreshLayout>
+        <RelativeLayout
+            android:id="@+id/humidity_layout"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:layout_marginTop="130dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/top_drop_shadow">
+                <ImageView
+                    android:id="@+id/humidity_icon"
+                    style="@style/CurrentImage.Humidity"
+                    android:contentDescription="@string/humidity_icon_description"/>
+                <TextView
+                    android:id="@+id/current_humidity_text"
+                    android:layout_toRightOf="@+id/humidity_icon"
+                    android:layout_toEndOf="@id/humidity_icon"
+                    style="@style/TextAppearance.LargeHeadingText.Humidity"
+                    tools:text="@string/placeholder_humidity"/>
+            </RelativeLayout>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/light_layout"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:layout_marginTop="280dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/top_drop_shadow">
+                <ImageView
+                    android:id="@+id/light_icon"
+                    style="@style/CurrentImage.Light"
+                    android:contentDescription="@string/humidity_icon_description"/>
+                <TextView
+                    android:id="@+id/current_light_text"
+                    android:layout_toRightOf="@+id/light_icon"
+                    android:layout_toEndOf="@id/light_icon"
+                    style="@style/TextAppearance.LargeHeadingText.Light"
+                    tools:text="@string/placeholder_light"
+                    android:text="@string/placeholder_light"/>
+            </RelativeLayout>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="-20dp"
+            android:layout_height="380dp"
+            android:background="@drawable/top_drop_shadow"
+            android:layout_below="@+id/light_layout">
+            <RelativeLayout
+                android:id="@+id/sun_icon"
+                android:paddingTop="400dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/red8"
+                android:gravity="center_horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_sun"/>
+            </RelativeLayout>
+        </RelativeLayout>
+
+    </RelativeLayout>
+</com.blackcj.core.view.ObservableScrollView>
