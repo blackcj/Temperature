@@ -3,29 +3,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/blue2"
     tools:context=".MainActivity$PlaceholderFragment">
 
-    <RelativeLayout
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="75dp"
+        android:gravity="center"
+        android:background="@color/orange"
+        android:id="@+id/current_title_text"
+        android:textColor="@color/white"
+        android:text="@string/temp_graph_title"
+        android:textSize="30sp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/chart"
+        android:paddingTop="10dp"
+        android:layout_below="@id/current_title_text"
+        android:orientation="vertical"
+        tools:background="@drawable/graph_placeholder"
+        android:background="@color/white"/>
 
-        android:gravity="center">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:gravity="center"
-            android:background="@color/orange"
-            android:id="@+id/current_title_text"
-            android:textColor="@color/white"
-            android:text="TEMPERATURE GRAPH"
-            android:textSize="30sp"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:id="@+id/chart"
-            android:layout_below="@id/current_title_text"
-            android:orientation="vertical"/>
-    </RelativeLayout>
 
 
 </RelativeLayout>

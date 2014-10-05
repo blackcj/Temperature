@@ -3,9 +3,10 @@
     <color name="white">@android:color/white</color>
     <color name="grey">#EEEEEE</color>
     <color name="black">@android:color/black</color>
+    <color name="darkGrey">#888888</color>
     <color name="blue14">#0099CC</color>
+    <color name="blue4">#8AD5F0</color>
     <color name="blue2">#C5EAF8</color>
-
     <color name="blue1">#E2F4FB</color>
 
     <color name="green11">#7CAF00</color>

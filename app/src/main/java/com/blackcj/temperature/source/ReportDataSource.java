@@ -32,6 +32,14 @@ public class ReportDataSource implements Callback<List<Temperature>> {
         service.getReportData(this);
     }
 
+    public void addListener(ReportListener listener) {
+        mListener = listener;
+    }
+
+    public void removeListeners(){
+        mListener = null;
+    }
+
     @Override
     public void failure(final RetrofitError error) {
         Log.d("TemperatureDataSource", "Error");
@@ -39,7 +47,9 @@ public class ReportDataSource implements Callback<List<Temperature>> {
     }
     @Override
     public void success(List<Temperature> reportData, Response response) {
-        mListener.onReportData(reportData);
+        if(mListener != null) {
+            mListener.onReportData(reportData);
+        }
     }
 
     public interface ReportListener {

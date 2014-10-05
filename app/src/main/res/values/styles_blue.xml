@@ -30,7 +30,7 @@
         <item name="actionModeSplitBackground">@drawable/cab_background_bottom_blue</item>
         <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Blue</item>
 
-                <!-- Light.DarkActionBar specific -->
+        <!-- Light.DarkActionBar specific -->
         <item name="actionBarWidgetTheme">@style/Theme.Blue.Widget</item>
 
     </style>
