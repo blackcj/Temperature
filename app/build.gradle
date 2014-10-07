@@ -3,13 +3,12 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 19
     buildToolsVersion '19.1.0'
-
     defaultConfig {
-        applicationId "com.blackcj.temperature"
+        applicationId 'com.blackcj.temperature'
         minSdkVersion 14
         targetSdkVersion 19
         versionCode 1
-        versionName "1.0"
+        versionName '1.0'
     }
     signingConfigs {
         release {
@@ -33,9 +32,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
     lintOptions {
         abortOnError false
+    }
+    productFlavors {
     }
 }
 
@@ -47,4 +47,8 @@ dependencies {
     /* Other libraries */
     compile 'com.squareup.retrofit:retrofit:1.6.1'
     compile 'com.jakewharton:butterknife:5.+'
+    compile 'nl.qbusict:cupboard:2.0.0'
+    compile 'org.achartengine:achartengine:1.2.+'
+    /* Common code stored in a library */
+    compile project(':core_library')
 }

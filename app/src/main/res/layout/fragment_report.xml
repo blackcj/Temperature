@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue2"
+    tools:context=".MainActivity$PlaceholderFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:gravity="center"
+        android:background="@color/orange"
+        android:id="@+id/current_title_text"
+        android:textColor="@color/white"
+        android:text="@string/temp_graph_title"
+        android:textSize="30sp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/chart"
+        android:paddingTop="10dp"
+        android:layout_below="@id/current_title_text"
+        android:orientation="vertical"
+        tools:background="@drawable/graph_placeholder"
+        android:background="@color/white"/>
+
+
+
+</RelativeLayout>
+

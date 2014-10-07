@@ -13,7 +13,7 @@ import retrofit.client.Response;
 /**
  * Created by Chris on 10/2/2014.
  */
-public class TemperatureDataSource {
+public class TemperatureDataSource implements Callback<Temperature> {
 
     private TemperatureListener mListener;
 
@@ -27,19 +27,20 @@ public class TemperatureDataSource {
                 .build();
 
         TemperatureService service = restAdapter.create(TemperatureService.class);
-        service.getTemp(new Callback<Temperature>() {
-            @Override
-            public void failure(final RetrofitError error) {
-                Log.d("TemperatureDataSource", "Error");
-                mListener.onError();
-            }
-            @Override
-            public void success(Temperature temp, Response response) {
-                Log.d("TemperatureDataSource", "Temperature:" + temp.toString());
-                mListener.onTemperature(temp);
-            }
-        });
+        service.getTemp(this);
     }
+
+    @Override
+    public void failure(final RetrofitError error) {
+        Log.d("TemperatureDataSource", "Error");
+        mListener.onError();
+    }
+    @Override
+    public void success(Temperature temp, Response response) {
+        Log.d("TemperatureDataSource", "Temperature:" + temp.toString());
+        mListener.onTemperature(temp);
+    }
+
     public interface TemperatureListener {
         public void onTemperature(Temperature temperature);
         public void onError();

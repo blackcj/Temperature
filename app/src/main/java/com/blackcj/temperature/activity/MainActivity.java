@@ -14,11 +14,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.blackcj.temperature.fragment.CurrentTempFragment;
 import com.blackcj.temperature.fragment.NavigationDrawerFragment;
 import com.blackcj.temperature.R;
+import com.blackcj.temperature.fragment.ReportsFragment;
 import com.blackcj.temperature.model.Temperature;
 import com.blackcj.temperature.source.TemperatureDataSource;
 
@@ -44,7 +46,6 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
-
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
@@ -67,7 +68,7 @@ public class MainActivity extends ActionBarActivity
                 // update the main content by replacing fragments
 
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                        .replace(R.id.container, ReportsFragment.newInstance(position + 1))
                         .commit();
                 break;
             case 2:
@@ -123,8 +124,8 @@ public class MainActivity extends ActionBarActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_refresh) {
+            //return true;
         }
         return super.onOptionsItemSelected(item);
     }
