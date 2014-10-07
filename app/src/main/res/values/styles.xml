@@ -27,9 +27,13 @@
 
     <!-- Current Temp Fragment -->
     <style name="CurrentImage">
-        <item name="android:padding">5dp</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:paddingBottom">15dp</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">150dp</item>
+        <item name="android:layout_height">fill_parent</item>
     </style>
 
     <style name="CurrentImage.Temp">
@@ -49,7 +53,8 @@
 
     <style name="TextAppearance.LargeHeadingText">
         <item name="android:textColor">@color/white</item>
-        <item name="android:gravity">center</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:paddingTop">30dp</item>
         <item name="android:textSize">@dimen/text_xxlarge</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">150dp</item>
