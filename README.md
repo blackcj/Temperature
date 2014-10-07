@@ -8,6 +8,7 @@ Features
 ---------------------------
 + View the current temperature, humidity and wall AC status (on or off)
 + Reports showing historical temperature data for the past day
++ Ability to zoom and pan the report graph
 
 Third Party Libraries
 ---------------------------
