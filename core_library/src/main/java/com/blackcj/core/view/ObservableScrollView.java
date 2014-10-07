@@ -9,6 +9,8 @@ import android.widget.ScrollView;
 
 public class ObservableScrollView extends ScrollView {
 
+    private static int MAX_SCROLL_SPEED = 2000;
+
     private ScrollViewListener scrollViewListener = null;
 
     public ObservableScrollView(Context context) {
@@ -33,6 +35,13 @@ public class ObservableScrollView extends ScrollView {
         if(scrollViewListener != null) {
             scrollViewListener.onScrollChanged(this, x, y, oldx, oldy);
         }
+    }
+
+    @Override
+    public void fling (int velocityY)
+    {
+        int topVelocityY = (int) ((Math.min(Math.abs(velocityY), MAX_SCROLL_SPEED) ) * Math.signum(velocityY));
+        super.fling(topVelocityY);
     }
 
 }

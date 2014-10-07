@@ -8,15 +8,19 @@
     android:fillViewport="true"
     android:scrollbars="none"
     android:fadingEdge="none"
+    android:background="@color/orange"
     tools:context=".MainActivity$PlaceholderFragment">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/scrolling_content">
 
         <RelativeLayout
             android:id="@+id/temp_layout"
             android:layout_width="match_parent"
-            android:layout_height="150dp">
+            android:background="@drawable/top_drop_shadow"
+            android:layout_height="170dp"
+            android:layout_marginTop="-20dp">
             <ImageView
                 android:id="@+id/thermostat_icon"
                 style="@style/CurrentImage.Temp"
@@ -32,51 +36,43 @@
             android:id="@+id/humidity_layout"
             android:layout_width="match_parent"
             android:layout_height="170dp"
-            android:layout_marginTop="130dp">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/top_drop_shadow">
-                <ImageView
-                    android:id="@+id/humidity_icon"
-                    style="@style/CurrentImage.Humidity"
-                    android:contentDescription="@string/humidity_icon_description"/>
-                <TextView
-                    android:id="@+id/current_humidity_text"
-                    android:layout_toRightOf="@+id/humidity_icon"
-                    android:layout_toEndOf="@id/humidity_icon"
-                    style="@style/TextAppearance.LargeHeadingText.Humidity"
-                    tools:text="@string/placeholder_humidity"/>
-            </RelativeLayout>
+            android:layout_marginTop="130dp"
+            android:background="@drawable/top_drop_shadow">
+            <ImageView
+                android:id="@+id/humidity_icon"
+                style="@style/CurrentImage.Humidity"
+                android:contentDescription="@string/humidity_icon_description"/>
+            <TextView
+                android:id="@+id/current_humidity_text"
+                android:layout_toRightOf="@+id/humidity_icon"
+                android:layout_toEndOf="@id/humidity_icon"
+                style="@style/TextAppearance.LargeHeadingText.Humidity"
+                tools:text="@string/placeholder_humidity"/>
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/light_layout"
             android:layout_width="match_parent"
             android:layout_height="170dp"
-            android:layout_marginTop="280dp">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/top_drop_shadow">
-                <ImageView
-                    android:id="@+id/light_icon"
-                    style="@style/CurrentImage.Light"
-                    android:contentDescription="@string/humidity_icon_description"/>
-                <TextView
-                    android:id="@+id/current_light_text"
-                    android:layout_toRightOf="@+id/light_icon"
-                    android:layout_toEndOf="@id/light_icon"
-                    style="@style/TextAppearance.LargeHeadingText.Light"
-                    tools:text="@string/placeholder_light"
-                    android:text="@string/placeholder_light"/>
-            </RelativeLayout>
+            android:layout_marginTop="280dp"
+            android:background="@drawable/top_drop_shadow">
+            <ImageView
+                android:id="@+id/light_icon"
+                style="@style/CurrentImage.Light"
+                android:contentDescription="@string/humidity_icon_description"/>
+            <TextView
+                android:id="@+id/current_light_text"
+                android:layout_toRightOf="@+id/light_icon"
+                android:layout_toEndOf="@id/light_icon"
+                style="@style/TextAppearance.LargeHeadingText.Light"
+                tools:text="@string/placeholder_light"
+                android:text="@string/placeholder_light"/>
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/sun_layout"
             android:layout_width="match_parent"
-            android:layout_marginTop="-20dp"
+            android:layout_marginTop="430dp"
             android:layout_height="380dp"
-            android:background="@drawable/top_drop_shadow"
-            android:layout_below="@+id/light_layout">
+            android:background="@drawable/top_drop_shadow">
             <RelativeLayout
                 android:id="@+id/sun_icon"
                 android:paddingTop="400dp"

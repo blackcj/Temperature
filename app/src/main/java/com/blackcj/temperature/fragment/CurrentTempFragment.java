@@ -61,11 +61,18 @@ public class CurrentTempFragment extends Fragment implements SwipeRefreshLayout.
     @InjectView(R.id.light_layout)
     RelativeLayout mLightLayout;
 
+    @InjectView(R.id.sun_layout)
+    RelativeLayout mSunLayout;
+
     @InjectView(R.id.sun_icon)
     RelativeLayout mSunIcon;
 
+    @InjectView(R.id.scrolling_content)
+    RelativeLayout mScrollingContent;
+
     protected int section_number;
     protected DisplayMetrics metrics;
+    protected RelativeLayout[] layouts;
 
     public static CurrentTempFragment newInstance(int sectionNumber) {
         CurrentTempFragment f = new CurrentTempFragment();
@@ -103,7 +110,7 @@ public class CurrentTempFragment extends Fragment implements SwipeRefreshLayout.
         final View view = inflater.inflate(R.layout.fragment_current_temp, container, false);
 
         ButterKnife.inject(this, view);
-
+        layouts = new RelativeLayout[]{mTempLayout, mHumidityLayout, mLightLayout, mSunLayout};
         setHasOptionsMenu(true);
 
 
@@ -176,29 +183,79 @@ public class CurrentTempFragment extends Fragment implements SwipeRefreshLayout.
     public void onError() {
         Toast.makeText(this.getActivity(), "Error occurred.", Toast.LENGTH_LONG).show();
     }
+    private int scrollCap = 0;
+    private boolean atBottom = false;
 
+    /**
+     * This can be re-written to work as an AnimationPattern of the scroll view.
+     *
+     * @param scrollView
+     * @param x
+     * @param y
+     * @param oldx
+     * @param oldy
+     */
     @Override
     public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
         int yScroll = y;
+        double percentScrolled = (double)scrollView.getScrollY() / (double)scrollView.getMaxScrollAmount();
+
         if(y < 0) {
             yScroll = 0;
+            percentScrolled = 0;
         }
 
-        double percentScrolled = (double)yScroll / (double)scrollView.getMaxScrollAmount();
-        mSunIcon.setPadding(0,(int)(getDPI(400, metrics) * (1 - percentScrolled)),0,0);
-        //mSunIcon.setPadding(0,getDPI(400, metrics),0,0);
-        int value = (int)(170.0 * (1.0 - percentScrolled));
-        value = Math.max(value, 70);
-        mTempLayout.setPadding(0,yScroll/2 - 10,0,0);
-        RelativeLayout.LayoutParams head_params = (RelativeLayout.LayoutParams)mTempLayout.getLayoutParams();
-        head_params.setMargins(0, yScroll / 2, 0, 0); //substitute parameters for left, top, right, bottom
-        mTempLayout.setLayoutParams(head_params);
-        mHumidityLayout.setPadding(0, yScroll / 2 + 10, 0, 0);
+        int diff = (mScrollingContent.getBottom()-(scrollView.getHeight()+scrollView.getScrollY()+mScrollingContent.getTop()));// Calculate the scrolldiff
+        if( diff <= 0 && atBottom) {
+            return;
+        } else if(diff <=0) {
+            // if diff is zero, then the bottom has been reached
+            Log.d("CurrentTempFragment", "MyScrollView: Bottom has been reached" );
+            atBottom = true;
+        }else {
+            atBottom = false;
+        }
 
-        head_params = (RelativeLayout.LayoutParams)mLightLayout.getLayoutParams();
-        head_params.height = getDPI(value, metrics);
-        //Log.d("CurrentTempFragment", "SCROLL: " + value);
-        mLightLayout.setLayoutParams(head_params);
+
+        // Layouts are 170dp tall
+        int layoutHeight = (int)(170.0 * (1.0 - percentScrolled));
+        int shadowPadding = 20;
+        layoutHeight = Math.max(layoutHeight, 70);
+
+        if(layoutHeight != 70) {
+            // All layouts have locked. Allow the last layout to finish scrolling up
+            scrollCap = yScroll;
+        }
+
+        // TODO: Instead of using relative layouts, create a class that knows it's min / max size
+        for(int i = 0; i < layouts.length; i++) {
+            // Convert from int to dp
+            int toHeight = getDPI(layoutHeight, metrics);
+            int toTopMargin = scrollCap + getDPI(layoutHeight*i - shadowPadding*(i+1), metrics);
+            if(i < layouts.length - 1) {
+                updateLayout(layouts[i], toHeight, toTopMargin);
+            }else {
+                // Special case for the last layout, it's taller and doesn't re-size
+                updateLayout(layouts[i], toTopMargin);
+            }
+        }
+
+        // Animate the sun up based on scroll index
+        int padding = Math.max(300,(int)(getDPI(400, metrics) * (0.85 - percentScrolled)));
+        mSunIcon.setPadding(0,padding,0,0);
+    }
+
+    public void updateLayout(RelativeLayout layout, int layoutHeight, int layoutMargin) {
+        RelativeLayout.LayoutParams head_params = (RelativeLayout.LayoutParams)layout.getLayoutParams();
+        head_params.height = layoutHeight;
+        head_params.setMargins(0, layoutMargin, 0, 0); //substitute parameters for left, top, right, bottom
+        layout.setLayoutParams(head_params);
+    }
+
+    public void updateLayout(RelativeLayout layout, int layoutMargin) {
+        RelativeLayout.LayoutParams head_params = (RelativeLayout.LayoutParams)layout.getLayoutParams();
+        head_params.setMargins(0, layoutMargin, 0, 0); //substitute parameters for left, top, right, bottom
+        layout.setLayoutParams(head_params);
     }
 
     public static int getDPI(int size, DisplayMetrics metrics){
