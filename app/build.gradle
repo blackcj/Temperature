@@ -17,9 +17,9 @@ android {
                 storeFile releaseKeystore
             }
             // Do not modify this section. To configure these variables, copy gradle.properties.dist to gradle.properties.
-            storePassword getProperty('releaseKeystorePassword')
-            keyAlias getProperty('releaseKeyAlias')
-            keyPassword getProperty('releaseKeyPassword')
+            storePassword hasProperty('releaseKeystorePassword') ? getProperty('releaseKeystorePassword') : ""
+            keyAlias hasProperty('releaseKeystorePassword') ? getProperty('releaseKeyAlias') : ""
+            keyPassword hasProperty('releaseKeystorePassword') ? getProperty('releaseKeyPassword') : ""
         }
     }
     compileOptions {

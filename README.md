@@ -6,7 +6,7 @@ Temperature is a native Android app to view the temperature and humidity of my a
 
 Third Party Libraries
 ===========
-+ Retrofit (used for API requests)
-+ Butterknife (used for view injection)
-+ AChartEngine (used to display the report graph)
-+ Cupboard (will be used to cache data locally)
++ [Retrofit](http://square.github.io/retrofit/) (used for API requests)
++ [Butterknife](http://jakewharton.github.io/butterknife/) (used for view injection)
++ [AChartEngine](https://code.google.com/p/achartengine/) (used to display the report graph)
++ [Cupboard](https://bitbucket.org/qbusict/cupboard) (will be used to cache data locally)
