@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -13,8 +11,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,7 +18,6 @@ import android.widget.Toast;
 import com.blackcj.core.view.ObservableScrollView;
 import com.blackcj.core.view.ScrollViewListener;
 import com.blackcj.temperature.R;
-import com.blackcj.temperature.activity.MainActivity;
 import com.blackcj.temperature.model.Temperature;
 import com.blackcj.temperature.source.TemperatureDataSource;
 
@@ -30,24 +25,25 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 /**
- * Created by Chris on 10/2/2014.
+ * Fragment used to display the current temperature, humidity and AC status.
+ *
+ * @author Chris Black (blackcj2@gmail.com)
  */
-public class CurrentTempFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
+@SuppressWarnings("WeakerAccess") // Butterknife requires public reference of injected views
+public class CurrentTempFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,
         TemperatureDataSource.TemperatureListener, ScrollViewListener {
-    /**
-     * The fragment argument representing the section number for this
-     * fragment.
-     */
-    private static final String ARG_SECTION_NUMBER = "section_number";
+
     private TemperatureDataSource mDataSource;
+    private ListFragmentSwipeRefreshLayout mSwipeRefreshLayout;
+    protected int section_number;
+    protected DisplayMetrics metrics;
+    protected RelativeLayout[] layouts;
 
     @InjectView(R.id.current_temperature_text)
     TextView currentTempText;
 
     @InjectView(R.id.current_humidity_text)
     TextView currentHumidityText;
-
-    ListFragmentSwipeRefreshLayout mSwipeRefreshLayout;
 
     @InjectView(R.id.observable_scroll_view)
     ObservableScrollView mObservableScrollView;
@@ -70,10 +66,6 @@ public class CurrentTempFragment extends Fragment implements SwipeRefreshLayout.
     @InjectView(R.id.scrolling_content)
     RelativeLayout mScrollingContent;
 
-    protected int section_number;
-    protected DisplayMetrics metrics;
-    protected RelativeLayout[] layouts;
-
     public static CurrentTempFragment newInstance(int sectionNumber) {
         CurrentTempFragment f = new CurrentTempFragment();
         Bundle args = new Bundle();
@@ -85,8 +77,6 @@ public class CurrentTempFragment extends Fragment implements SwipeRefreshLayout.
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        ((MainActivity) activity).onSectionAttached(
-                getArguments().getInt(ARG_SECTION_NUMBER));
         metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
     }
@@ -156,7 +146,7 @@ public class CurrentTempFragment extends Fragment implements SwipeRefreshLayout.
 
                 mSwipeRefreshLayout.setRefreshing(false);
             }
-        }, 4000);
+        }, 3000);
     }
 
     @Override
@@ -181,7 +171,7 @@ public class CurrentTempFragment extends Fragment implements SwipeRefreshLayout.
 
     @Override
     public void onError() {
-        Toast.makeText(this.getActivity(), "Error occurred.", Toast.LENGTH_LONG).show();
+        Toast.makeText(this.getActivity(), getString(R.string.api_error), Toast.LENGTH_LONG).show();
     }
     private int scrollCap = 0;
     private boolean atBottom = false;
@@ -258,6 +248,13 @@ public class CurrentTempFragment extends Fragment implements SwipeRefreshLayout.
         layout.setLayoutParams(head_params);
     }
 
+    /**
+     * Baseline an int to the correct pixel density.
+     *
+     * @param size int to convert
+     * @param metrics display metrics of current view
+     * @return
+     */
     public static int getDPI(int size, DisplayMetrics metrics){
         return (size * metrics.densityDpi) / DisplayMetrics.DENSITY_DEFAULT;
     }
@@ -277,11 +274,7 @@ public class CurrentTempFragment extends Fragment implements SwipeRefreshLayout.
         @Override
         public boolean canChildScrollUp() {
             final ObservableScrollView scrollView = mObservableScrollView;
-            if (scrollView.getVisibility() == View.VISIBLE) {
-                return canListViewScrollUp(scrollView);
-            } else {
-                return false;
-            }
+            return scrollView.getVisibility() == View.VISIBLE && canListViewScrollUp(scrollView);
         }
 
     }
@@ -292,12 +285,6 @@ public class CurrentTempFragment extends Fragment implements SwipeRefreshLayout.
      * needed.
      */
     private static boolean canListViewScrollUp(ObservableScrollView listView) {
-        if (android.os.Build.VERSION.SDK_INT >= 14) {
-            // For ICS and above we can call canScrollVertically() to determine this
-            return true;//ViewCompat.canScrollVertically(listView, -1);
-        } else {
-            // Min SDK 14
-            return true;
-        }
+        return true; // Use pull to refresh for load animation but disable pull down to improve view animation
     }
 }

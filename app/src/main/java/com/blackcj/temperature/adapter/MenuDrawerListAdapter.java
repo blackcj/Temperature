@@ -10,10 +10,18 @@ import android.widget.TextView;
 
 import com.blackcj.temperature.R;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
+/**
+ * List adapter used to inflate a custom view for the menu items. Items contain an image and text.
+ *
+ * @author Chris Black (blackcj2@gmail.com)
+ */
 public class MenuDrawerListAdapter extends ArrayAdapter<String>{
 
-    private Integer[] mIcons;
-    private Context mContext;
+    private final Integer[] mIcons;
+    private final Context mContext;
 
     public MenuDrawerListAdapter(Context context, int textViewResourceId, String[] objects, Integer[] icons) {
         super(context, textViewResourceId, objects);
@@ -22,17 +30,29 @@ public class MenuDrawerListAdapter extends ArrayAdapter<String>{
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-    	View row = LayoutInflater.from(mContext).inflate(R.layout.lv_drawer_row, parent, false);
-        TextView label = (TextView) row.findViewById(R.id.drawer_row_text);
-        label.setText(getItem(position));
+    public View getView(int position, View view, ViewGroup parent) {
+        ViewHolder holder;
+        if (view != null) {
+            holder = (ViewHolder) view.getTag();
+        } else {
+            view = LayoutInflater.from(mContext).inflate(R.layout.lv_drawer_row, parent, false);
+            holder = new ViewHolder(view);
+            view.setTag(holder);
+        }
 
-        ImageView icon = (ImageView)row.findViewById(R.id.drawer_row_icon);
-
+        holder.name.setText(getItem(position));
         int imageResource = mIcons[position];
-        icon.setImageResource(imageResource);
+        holder.icon.setImageResource(imageResource);
+        return view;
+    }
 
-        return row;
+    static class ViewHolder {
+        @InjectView(R.id.drawer_row_text) TextView name;
+        @InjectView(R.id.drawer_row_icon) ImageView icon;
+
+        public ViewHolder(View view) {
+            ButterKnife.inject(this, view);
+        }
     }
 
 }

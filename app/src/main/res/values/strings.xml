@@ -12,17 +12,20 @@
     <!-- Common -->
     <string name="temperature">Temperature</string>
     <string name="humidity">Humidity</string>
+    <string name="api_error">Error occurred.</string>
 
     <!-- CurrentTempFragment -->
     <string name="temp_icon_description">Thermostat</string>
     <string name="humidity_icon_description">Water droplet</string>
-    <string name="light_icon_description">Light bulb</string>
+    <string name="power_icon_description">Power</string>
+    <string name="sun_icon_description">Sun</string>
     <string name="placeholder_temp">70.1°F</string>
     <string name="placeholder_humidity">45.6%</string>
     <string name="placeholder_light">OFF</string>
 
     <!-- ReportFragment -->
     <string name="temp_graph_title">TEMPERATURE GRAPH</string>
+    <string name="series_title">Temperature hourly</string>
 
     <!-- SettingsFragment -->
     <string name="settings_title">SETTINGS</string>

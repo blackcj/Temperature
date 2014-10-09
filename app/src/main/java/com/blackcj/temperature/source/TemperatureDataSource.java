@@ -2,6 +2,7 @@ package com.blackcj.temperature.source;
 
 import android.util.Log;
 
+import com.blackcj.temperature.Constants;
 import com.blackcj.temperature.model.Temperature;
 import com.blackcj.temperature.service.TemperatureService;
 
@@ -11,7 +12,9 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by Chris on 10/2/2014.
+ * Data source used to make requests for temperature data.
+ *
+ * @author Chris Black (blackcj2@gmail.com)
  */
 public class TemperatureDataSource implements Callback<Temperature> {
 
@@ -23,7 +26,7 @@ public class TemperatureDataSource implements Callback<Temperature> {
 
     public void getTemp() {
         RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint("http://blackcj.com")
+                .setEndpoint(Constants.BASE_URL)
                 .build();
 
         TemperatureService service = restAdapter.create(TemperatureService.class);
