@@ -1,19 +1,17 @@
 package com.blackcj.temperature.fragment;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.blackcj.temperature.R;
-import com.blackcj.temperature.activity.MainActivity;
 import com.blackcj.temperature.model.Temperature;
 import com.blackcj.temperature.source.ReportDataSource;
-import com.blackcj.temperature.source.TemperatureDataSource;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
@@ -28,21 +26,17 @@ import org.achartengine.tools.ZoomListener;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.ListIterator;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 /**
- * Created by Chris on 10/2/2014.
+ * Report graph used to display a chart of historical temperature data.
+ *
+ * @author Chris Black (blackcj2@gmail.com)
  */
+@SuppressWarnings("WeakerAccess") // Butterknife requires public reference of injected views
 public class ReportsFragment extends BaseFragment implements ReportDataSource.ReportListener {
-
-    /**
-     * The fragment argument representing the section number for this
-     * fragment.
-     */
-    private static final String ARG_SECTION_NUMBER = "section_number";
 
     /** The main dataset that includes all the series that go into a chart. */
     private XYMultipleSeriesDataset mDataset;
@@ -70,13 +64,6 @@ public class ReportsFragment extends BaseFragment implements ReportDataSource.Re
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        ((MainActivity) activity).onSectionAttached(
-                getArguments().getInt(ARG_SECTION_NUMBER));
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_report, container, false);
@@ -87,7 +74,7 @@ public class ReportsFragment extends BaseFragment implements ReportDataSource.Re
         mDataSource.getReports();
 
         setUpRenderer();
-        mCurrentSeries = new XYSeries("Temperature hourly");
+        mCurrentSeries = new XYSeries(getString(R.string.series_title));
         mDataset = new XYMultipleSeriesDataset();
         mDataset.addSeries(mCurrentSeries);
         mChartView = ChartFactory.getLineChartView(getActivity(), mDataset, mRenderer);
@@ -109,6 +96,19 @@ public class ReportsFragment extends BaseFragment implements ReportDataSource.Re
 
         // Now return the SwipeRefreshLayout as this fragment's content view
         return view;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_refresh) {
+            mDataSource.getReports();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void updateLabels() {
@@ -226,6 +226,6 @@ public class ReportsFragment extends BaseFragment implements ReportDataSource.Re
 
     @Override
     public void onError() {
-
+        Toast.makeText(this.getActivity(), getString(R.string.api_error), Toast.LENGTH_LONG).show();
     }
 }

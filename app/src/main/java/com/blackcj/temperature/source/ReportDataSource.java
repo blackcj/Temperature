@@ -2,6 +2,7 @@ package com.blackcj.temperature.source;
 
 import android.util.Log;
 
+import com.blackcj.temperature.Constants;
 import com.blackcj.temperature.model.Temperature;
 import com.blackcj.temperature.service.ReportService;
 
@@ -13,7 +14,9 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by Chris on 10/2/2014.
+ * Data source used to make requests for report data.
+ *
+ * @author Chris Black (blackcj2@gmail.com)
  */
 public class ReportDataSource implements Callback<List<Temperature>> {
 
@@ -25,7 +28,7 @@ public class ReportDataSource implements Callback<List<Temperature>> {
 
     public void getReports() {
         RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint("http://blackcj.com")
+                .setEndpoint(Constants.BASE_URL)
                 .build();
 
         ReportService service = restAdapter.create(ReportService.class);

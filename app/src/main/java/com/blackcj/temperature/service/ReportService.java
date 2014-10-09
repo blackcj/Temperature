@@ -8,7 +8,9 @@ import retrofit.Callback;
 import retrofit.http.GET;
 
 /**
- * Created by Chris on 10/2/2014.
+ * Define the API endpoint for Retrofit
+ *
+ * @author Chris Black (blackcj2@gmail.com)
  */
 public interface ReportService {
     @GET("/spark/getReport.php")
