@@ -49,6 +49,10 @@ public class ResizableRelativeLayout extends RelativeLayout {
         return (int)(minHeight + ((1 - percent) * (maxHeight - minHeight)) - shadowPadding);
     }
 
+    public int getShadowHeight(){
+        return (int)shadowPadding;
+    }
+
     public boolean isFinished() {
         return percent >= 1.0;
     }

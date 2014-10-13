@@ -46,12 +46,18 @@ public class StickyAnimation extends BaseAnimation {
         yScroll = Math.min(yScroll, mScrollHeight - scrollView.getHeight());
         int layoutHeight = 0;
         for(int i = 0; i < mLayouts.length; i++) {
-            if(!mLayouts[i].isFinished()) {
-                double lPercent = percentScrolled - (0.25 * i);
-                Log.d("CollapseAllButLastAnimation", "MyScrollView: " + i + " | " + lPercent / 0.25);
-                mLayouts[i].resize(lPercent / 0.25, yScroll);
-                break;
+            //Log.d("CollapseAllButLastAnimation", "MyScrollView: " + mLayouts[i].shadowPadding);
+            int shadowPadding = 0;
+            if(i > 0){
+                shadowPadding = (int)mLayouts[i].shadowPadding;
             }
+            if(yScroll - shadowPadding >= layoutHeight) {
+                mLayouts[i].resize(0, yScroll - shadowPadding);
+            }else {
+                mLayouts[i].resize(0, layoutHeight);
+            }
+            layoutHeight += mLayouts[i].getLayoutHeight();
+
         }
     }
 }

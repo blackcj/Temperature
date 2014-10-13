@@ -8,12 +8,12 @@ import com.blackcj.core.view.ObservableScrollView;
 /**
  * Created by Chris on 10/12/2014.
  */
-public class CollapseAllButLastAnimation extends BaseAnimation {
+public class CollapseAnimation extends BaseAnimation {
 
     private boolean atBottom = false;
     private int mScrollHeight = 0;
 
-    public CollapseAllButLastAnimation(RelativeLayout scrollingContent) {
+    public CollapseAnimation(RelativeLayout scrollingContent) {
         super(scrollingContent);
     }
 

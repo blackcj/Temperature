@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,11 +15,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blackcj.core.animation.BaseAnimation;
-import com.blackcj.core.animation.CollapseAllButLastAnimation;
-import com.blackcj.core.animation.StickyAnimation;
+import com.blackcj.core.animation.CollapseAnimation;
 import com.blackcj.core.view.ObservableScrollView;
 import com.blackcj.core.view.ResizableRelativeLayout;
-import com.blackcj.core.view.ScrollViewListener;
 import com.blackcj.temperature.R;
 import com.blackcj.temperature.model.Temperature;
 import com.blackcj.temperature.source.TemperatureDataSource;
@@ -105,7 +102,7 @@ public class CurrentTempFragment extends BaseFragment implements SwipeRefreshLay
         final View view = inflater.inflate(R.layout.fragment_current_temp, container, false);
 
         ButterKnife.inject(this, view);
-        viewAnimator = new CollapseAllButLastAnimation(mScrollingContent);
+        viewAnimator = new CollapseAnimation(mScrollingContent);
         viewAnimator.setLayouts(new ResizableRelativeLayout[]{mTempLayout, mHumidityLayout, mLightLayout, mSunLayout});
         setHasOptionsMenu(true);
 
@@ -192,11 +189,6 @@ public class CurrentTempFragment extends BaseFragment implements SwipeRefreshLay
     public void onError() {
         Toast.makeText(this.getActivity(), getString(R.string.api_error), Toast.LENGTH_LONG).show();
     }
-
-
-
-
-
 
     /**
      * Baseline an int to the correct pixel density.
