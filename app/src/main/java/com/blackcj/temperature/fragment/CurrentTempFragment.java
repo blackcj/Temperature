@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,8 +14,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blackcj.core.animation.BaseAnimation;
+import com.blackcj.core.animation.CollapseAnimation;
 import com.blackcj.core.view.ObservableScrollView;
-import com.blackcj.core.view.ScrollViewListener;
+import com.blackcj.core.view.ResizableRelativeLayout;
 import com.blackcj.temperature.R;
 import com.blackcj.temperature.model.Temperature;
 import com.blackcj.temperature.source.TemperatureDataSource;
@@ -31,13 +32,13 @@ import butterknife.InjectView;
  */
 @SuppressWarnings("WeakerAccess") // Butterknife requires public reference of injected views
 public class CurrentTempFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,
-        TemperatureDataSource.TemperatureListener, ScrollViewListener {
+        TemperatureDataSource.TemperatureListener {
 
     private TemperatureDataSource mDataSource;
     private ListFragmentSwipeRefreshLayout mSwipeRefreshLayout;
     protected int section_number;
     protected DisplayMetrics metrics;
-    protected RelativeLayout[] layouts;
+    protected BaseAnimation viewAnimator;
 
     @InjectView(R.id.current_temperature_text)
     TextView currentTempText;
@@ -49,16 +50,16 @@ public class CurrentTempFragment extends BaseFragment implements SwipeRefreshLay
     ObservableScrollView mObservableScrollView;
 
     @InjectView(R.id.temp_layout)
-    RelativeLayout mTempLayout;
+    ResizableRelativeLayout mTempLayout;
 
     @InjectView(R.id.humidity_layout)
-    RelativeLayout mHumidityLayout;
+    ResizableRelativeLayout mHumidityLayout;
 
     @InjectView(R.id.light_layout)
-    RelativeLayout mLightLayout;
+    ResizableRelativeLayout mLightLayout;
 
     @InjectView(R.id.sun_layout)
-    RelativeLayout mSunLayout;
+    ResizableRelativeLayout mSunLayout;
 
     @InjectView(R.id.sun_icon)
     RelativeLayout mSunIcon;
@@ -92,6 +93,7 @@ public class CurrentTempFragment extends BaseFragment implements SwipeRefreshLay
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         section_number = getArguments() != null ? getArguments().getInt(ARG_SECTION_NUMBER) : 0;
+        mDataSource = new TemperatureDataSource(this);
     }
 
     @Override
@@ -100,12 +102,9 @@ public class CurrentTempFragment extends BaseFragment implements SwipeRefreshLay
         final View view = inflater.inflate(R.layout.fragment_current_temp, container, false);
 
         ButterKnife.inject(this, view);
-        layouts = new RelativeLayout[]{mTempLayout, mHumidityLayout, mLightLayout, mSunLayout};
+        viewAnimator = new CollapseAnimation(mScrollingContent);
+        viewAnimator.setLayouts(new ResizableRelativeLayout[]{mTempLayout, mHumidityLayout, mLightLayout, mSunLayout});
         setHasOptionsMenu(true);
-
-
-        mDataSource = new TemperatureDataSource(this);
-        mDataSource.getTemp();
 
         // Temporarily removed to test functionality without the swipe to refresh
 
@@ -129,7 +128,7 @@ public class CurrentTempFragment extends BaseFragment implements SwipeRefreshLay
         android.R.color.holo_orange_light,
         android.R.color.holo_red_light);
 
-        mObservableScrollView.setScrollViewListener(this);
+        mObservableScrollView.setScrollViewListener(viewAnimator);
         mObservableScrollView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
         // Now return the SwipeRefreshLayout as this fragment's content view
@@ -165,87 +164,30 @@ public class CurrentTempFragment extends BaseFragment implements SwipeRefreshLay
 
     @Override
     public void onTemperature(Temperature temperature) {
-        currentTempText.setText(temperature.toString());
-        currentHumidityText.setText(temperature.humidity + "%");
+        if(currentTempText != null) {
+            currentTempText.setText(temperature.toString());
+            currentHumidityText.setText(temperature.humidity + "%");
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(mDataSource != null) {
+            mDataSource.addListener(this);
+            mDataSource.getTemp();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mDataSource.removeListeners();
     }
 
     @Override
     public void onError() {
         Toast.makeText(this.getActivity(), getString(R.string.api_error), Toast.LENGTH_LONG).show();
-    }
-    private int scrollCap = 0;
-    private boolean atBottom = false;
-
-    /**
-     * This can be re-written to work as an AnimationPattern of the scroll view.
-     *
-     * @param scrollView
-     * @param x
-     * @param y
-     * @param oldx
-     * @param oldy
-     */
-    @Override
-    public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
-        int yScroll = y;
-        double percentScrolled = (double)scrollView.getScrollY() / (double)scrollView.getMaxScrollAmount();
-
-        if(y < 0) {
-            yScroll = 0;
-            percentScrolled = 0;
-        }
-
-        int diff = (mScrollingContent.getBottom()-(scrollView.getHeight()+scrollView.getScrollY()+mScrollingContent.getTop()));// Calculate the scrolldiff
-        if( diff <= 0 && atBottom) {
-            return;
-        } else if(diff <=0) {
-            // if diff is zero, then the bottom has been reached
-            Log.d("CurrentTempFragment", "MyScrollView: Bottom has been reached" );
-            atBottom = true;
-        }else {
-            atBottom = false;
-        }
-
-
-        // Layouts are 170dp tall
-        int layoutHeight = (int)(170.0 * (1.0 - percentScrolled));
-        int shadowPadding = 20;
-        layoutHeight = Math.max(layoutHeight, 70);
-
-        if(layoutHeight != 70) {
-            // All layouts have locked. Allow the last layout to finish scrolling up
-            scrollCap = yScroll;
-        }
-
-        // TODO: Instead of using relative layouts, create a class that knows it's min / max size
-        for(int i = 0; i < layouts.length; i++) {
-            // Convert from int to dp
-            int toHeight = getDPI(layoutHeight, metrics);
-            int toTopMargin = scrollCap + getDPI(layoutHeight*i - shadowPadding*(i+1), metrics);
-            if(i < layouts.length - 1) {
-                updateLayout(layouts[i], toHeight, toTopMargin);
-            }else {
-                // Special case for the last layout, it's taller and doesn't re-size
-                updateLayout(layouts[i], toTopMargin);
-            }
-        }
-
-        // Animate the sun up based on scroll index
-        int padding = Math.max(300,(int)(getDPI(400, metrics) * (0.85 - percentScrolled)));
-        mSunIcon.setPadding(0,padding,0,0);
-    }
-
-    public void updateLayout(RelativeLayout layout, int layoutHeight, int layoutMargin) {
-        RelativeLayout.LayoutParams head_params = (RelativeLayout.LayoutParams)layout.getLayoutParams();
-        head_params.height = layoutHeight;
-        head_params.setMargins(0, layoutMargin, 0, 0); //substitute parameters for left, top, right, bottom
-        layout.setLayoutParams(head_params);
-    }
-
-    public void updateLayout(RelativeLayout layout, int layoutMargin) {
-        RelativeLayout.LayoutParams head_params = (RelativeLayout.LayoutParams)layout.getLayoutParams();
-        head_params.setMargins(0, layoutMargin, 0, 0); //substitute parameters for left, top, right, bottom
-        layout.setLayoutParams(head_params);
     }
 
     /**

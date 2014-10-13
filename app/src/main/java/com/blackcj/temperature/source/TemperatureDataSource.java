@@ -33,15 +33,27 @@ public class TemperatureDataSource implements Callback<Temperature> {
         service.getTemp(this);
     }
 
+    public void addListener(TemperatureListener listener) {
+        mListener = listener;
+    }
+
+    public void removeListeners(){
+        mListener = null;
+    }
+
     @Override
     public void failure(final RetrofitError error) {
         Log.d("TemperatureDataSource", "Error");
-        mListener.onError();
+        if(mListener != null) {
+            mListener.onError();
+        }
     }
     @Override
     public void success(Temperature temp, Response response) {
         Log.d("TemperatureDataSource", "Temperature:" + temp.toString());
-        mListener.onTemperature(temp);
+        if(mListener != null) {
+            mListener.onTemperature(temp);
+        }
     }
 
     public interface TemperatureListener {
