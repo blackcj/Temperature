@@ -1,7 +1,9 @@
 package com.blackcj.temperature.fragment;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,6 +40,7 @@ import butterknife.InjectView;
 @SuppressWarnings("WeakerAccess") // Butterknife requires public reference of injected views
 public class ReportsFragment extends BaseFragment implements ReportDataSource.ReportListener {
 
+    protected DisplayMetrics metrics;
     /** The main dataset that includes all the series that go into a chart. */
     private XYMultipleSeriesDataset mDataset;
     /** The main renderer that includes all the renderers customizing a chart. */
@@ -61,6 +64,13 @@ public class ReportsFragment extends BaseFragment implements ReportDataSource.Re
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         f.setArguments(args);
         return f;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        metrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
     }
 
     @Override
@@ -125,13 +135,13 @@ public class ReportsFragment extends BaseFragment implements ReportDataSource.Re
     private void setUpRenderer() {
         // Now we create the renderer
         mCurrentRenderer = new XYSeriesRenderer();
-        mCurrentRenderer.setLineWidth(5);
+        mCurrentRenderer.setLineWidth(getDPI(2, metrics));
         mCurrentRenderer.setColor(getResources().getColor(R.color.blue14));
         // Include low and max value
         mCurrentRenderer.setDisplayBoundingPoints(true);
         // we add point markers
         mCurrentRenderer.setPointStyle(PointStyle.CIRCLE);
-        mCurrentRenderer.setPointStrokeWidth(10);
+        mCurrentRenderer.setPointStrokeWidth(getDPI(5, metrics));
         mCurrentRenderer.setShowLegendItem(false);
 
         mRenderer = new XYMultipleSeriesRenderer();
@@ -141,7 +151,7 @@ public class ReportsFragment extends BaseFragment implements ReportDataSource.Re
         // Disable Pan on two axis
         mRenderer.setPanEnabled(true, false);
         mRenderer.setZoomEnabled(true, false);
-        mRenderer.setLabelsTextSize(45f);
+        mRenderer.setLabelsTextSize(getDPI(15, metrics));
         mRenderer.setAxesColor(getResources().getColor(R.color.darkGrey));
 
         mRenderer.setShowGrid(true); // we show the grid
@@ -193,6 +203,17 @@ public class ReportsFragment extends BaseFragment implements ReportDataSource.Re
         }
     }
 
+    /**
+     * Baseline an int to the correct pixel density.
+     *
+     * @param size int to convert
+     * @param metrics display metrics of current view
+     * @return
+     */
+    public static int getDPI(int size, DisplayMetrics metrics){
+        return (size * metrics.densityDpi) / DisplayMetrics.DENSITY_DEFAULT;
+    }
+
     @Override
     public void onReportData(List<Temperature> reportData) {
         Collections.reverse(reportData);
@@ -216,7 +237,7 @@ public class ReportsFragment extends BaseFragment implements ReportDataSource.Re
         // An array containing the margin size values, in this order: top, left, bottom, right
         mRenderer.setMargins(new int [] {5,0,5,0});
 
-        mRenderer.setYLabelsPadding(-75);
+        mRenderer.setYLabelsPadding(-getDPI(35, metrics));
 
         updateLabels();
         mDataset.clear();
