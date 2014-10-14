@@ -32,7 +32,12 @@ public class CollapseAnimation extends BaseAnimation {
         if(mScrollHeight == 0) {
             mScrollHeight = mScrollingContent.getHeight();
         }
+        if((mScrollHeight - scrollView.getHeight()) <= 0) {
+            // Too small to scroll
+            return;
+        }
         double percentScrolled = (double)y/(mScrollHeight - scrollView.getHeight());
+        percentScrolled = Math.min(percentScrolled, 1);
         if( percentScrolled == 1 && atBottom) {
             return;
         } else if(percentScrolled == 1) {
