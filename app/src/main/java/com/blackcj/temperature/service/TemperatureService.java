@@ -11,6 +11,19 @@ import retrofit.http.GET;
  * @author Chris Black (blackcj2@gmail.com)
  */
 public interface TemperatureService {
+    /**
+     * Asynchronous task to retrieve the current temperature.
+     *
+     * @param callback
+     */
     @GET("/spark/getTemp.php")
     void getTemp(Callback<Temperature> callback);
+
+    /**
+     * Synchronous task used for Unit Test
+     *
+     * @return
+     */
+    @GET("/spark/getTemp")
+    Temperature getTemp();
 }

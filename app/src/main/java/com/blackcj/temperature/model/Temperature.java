@@ -10,7 +10,7 @@ public class Temperature {
     public double humidity;
     public int timestamp;
     public String formatted_date;
-    public int ac_mode; // Was the AC unit on or off
+    public int ac_status; // Was the AC unit on or off
 
     public String toString() {
         return temperature + "°F";
