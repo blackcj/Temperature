@@ -19,34 +19,24 @@
 
 <resources>
 
-    <style name="Theme.Blue" parent="@style/Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:actionBarItemBackground">@drawable/selectable_background_blue</item>
+    <style name="Theme.Blue" parent="@style/Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/blue14</item>
+        <item name="colorPrimaryDark">@color/blue14</item>
+        <item name="windowActionBar">false</item>
+
         <item name="android:popupMenuStyle">@style/PopupMenu.Blue</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Blue</item>
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Blue</item>
         <item name="android:actionDropDownStyle">@style/DropDownNav.Blue</item>
-        <item name="android:actionBarStyle">@style/ActionBar.Solid.Blue</item>
         <item name="android:actionModeBackground">@drawable/cab_background_top_blue</item>
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_blue</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Blue</item>
-        
+
         <!-- Light.DarkActionBar specific -->
         <item name="android:actionBarWidgetTheme">@style/Theme.Blue.Widget</item>
 
     </style>
 
-    <style name="ActionBar.Solid.Blue" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@drawable/ab_solid_blue</item>
-        <item name="android:backgroundStacked">@drawable/ab_stacked_solid_blue</item>
-        <item name="android:backgroundSplit">@drawable/ab_bottom_solid_blue</item>
-        <item name="android:progressBarStyle">@style/ProgressBar.Blue</item>
-    </style>
-
-    <style name="ActionBar.Transparent.Blue" parent="@style/Widget.AppCompat.ActionBar">
-        <item name="android:background">@drawable/ab_transparent_blue</item>
-        <item name="android:progressBarStyle">@style/ProgressBar.Blue</item>
-    </style>
-    
     <!-- this style is only referenced in a Light.DarkActionBar based theme -->
     <style name="Theme.Blue.Widget" parent="@style/Theme.AppCompat">
         <item name="android:popupMenuStyle">@style/PopupMenu.Blue</item>

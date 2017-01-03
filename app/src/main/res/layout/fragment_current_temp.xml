@@ -10,7 +10,7 @@
     android:scrollbars="none"
     android:fadingEdge="none"
     android:background="@color/orange"
-    tools:context=".MainActivity$PlaceholderFragment">
+    tools:context=".fragment.CurrentTempFragment">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="810dp"

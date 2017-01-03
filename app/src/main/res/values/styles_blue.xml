@@ -19,17 +19,15 @@
 
 <resources>
 
-    <style name="Theme.Blue" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+    <style name="Theme.Blue" parent="@style/Theme.AppCompat.NoActionBar">
         <item name="actionBarItemBackground">@drawable/selectable_background_blue</item>
         <item name="popupMenuStyle">@style/PopupMenu.Blue</item>
         <item name="dropDownListViewStyle">@style/DropDownListView.Blue</item>
         <item name="actionBarTabStyle">@style/ActionBarTabStyle.Blue</item>
         <item name="actionDropDownStyle">@style/DropDownNav.Blue</item>
-        <item name="actionBarStyle">@style/ActionBar.Solid.Blue</item>
         <item name="actionModeBackground">@drawable/cab_background_top_blue</item>
         <item name="actionModeSplitBackground">@drawable/cab_background_bottom_blue</item>
         <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Blue</item>
-
         <!-- Light.DarkActionBar specific -->
         <item name="actionBarWidgetTheme">@style/Theme.Blue.Widget</item>
 
